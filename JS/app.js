@@ -1,84 +1,101 @@
-var names = [
-    "bag",
-    "banana",
-    "bathroom",
-    "boots",
-    "breakfast",
-  ];
-  
-  var klikin = 0;
-  
- 
-  var leftImage = document.getElementById('leftImage');
-  var rightImage = document.querySelector('#rightImage');
-  var imagesSection = document.querySelector('#imagesSection');
-  
-  
-  function Bus(name) {
-    this.busName = name;
-    this.imagePath = `assets/${name}.jpg`;
-    this.clicks = 0;
-    
-    Bus.all.push(this);
-  }
-  Bus.all = [];
-  
-  
-  for (var i = 0; i < names.length; i++) {
-    new Bus(names[i]);
-  }
-  console.log(Bus.all);
-  
-  var leftBus, rightBus;
-  
-  function renderImages() {
-    
-     leftBus = Bus.all[randomNumber(0,Bus.all.length-1)];
-     rightBus = Bus.all[randomNumber(0,Bus.all.length-1)];
-    
-    leftImage.src = leftBus.imagePath;
-    leftImage.alt = leftBus.busName;
-    leftImage.title = leftBus.busName;
-    rightImage.src = rightBus.imagePath;
-    rightImage.alt = rightBus.busName;
-    rightImage.title = rightBus.busName;
-  }
-  renderImages();
-  
-  
-  imagesSection.addEventListener('click',handleClick);
-  
-  function handleClick (event) {
+'use strict'
+
+var pname = [
+'bag.jpg',
+ 'banana.jpg',
+ 'bathroom.jpg',
+ 'boots.jpg',
+ 'breakfast.jpg',
+ 'bubblegum.jpg',
+ 'chair.jpg',
+ 'cthulhu.jpg',
+ 'dog-duck.jpg',
+ 'dragon.jpg',
+ 'pen.jpg',
+ 'pet-sweep.jpg',
+ 'scissors.jpg',
+ 'shark',
+ 'sweep.png',
+ 'usb.gif',
+ 'water-can.jpg',
+ 'wine-glass.jpg'];
+
+ var ppath = [
+  'bag.jpg',
+   'banana.jpg',
+   'bathroom.jpg',
+   'boots.jpg',
+   'breakfast.jpg',
+   'bubblegum.jpg',
+   'chair.jpg',
+   'cthulhu.jpg',
+   'dog-duck.jpg',
+   'dragon.jpg',
+   'pen.jpg',
+   'pet-sweep.jpg',
+   'scissors.jpg',
+   'shark',
+   'sweep.png',
+   'usb.gif',
+   'water-can.jpg',
+   'wine-glass.jpg'];
+
+   items.all = [];  
+
+   var kliks = 0;
+   var kliklim = 25;
+// calling id
+   var leftImage = document.getElementById('leftImage');
+   var rightImage = document.getElementById('rightImage');
+   var midImage = document.getElementById('midImage');
+   //this will be the constructor
    
-    if(klikin < 5) {
-      
-      if(event.target.id !== 'imagesSection') {
-        klikin++;
-        if(event.target.id === 'leftImage') {
-          leftBus.clicks++;
-        }
-        if(event.target.id === 'rightImage') {
-          rightBus.clicks++;
-        }
-        renderImages();
-      } 
-    } else {
-      renderResults();
-    }
+   function item(iname, ipath, idetail){
+     this.iname = iname;
+     this.ipath = ipath;
+     this.idetail = idetail;
+     this.iviews = 0;
+     this.ikliks = 0;
+     items.push(this);
+     
+   }
+// creating news
+for (var j = 0; j < pname.length; j++) {
+ new item (pname[i])
+  
+}
+
+imagesSection.addEventListener('click',klikcount);
+
+function klikcount (event) {
+ 
+  if(kliks < kliklim) {
+    
+    if(event.target.id !== 'imagesSection') {
+      kliks++;
+      if(event.target.id === 'leftImage') {
+        leftGoat.kliks++;
+      }
+      if(event.target.id === 'rightImage') {
+        rightGoat.kliks++;
+      }
+      renderImages();
+    } 
+  } else {
+    renderResults();
   }
-  
-  function renderResults () {
-    var ulE1 = document.getElementById('finalResult');
-    for( var i =0; i<Bus.all.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = `${Bus.all[i].busName} has ${Bus.all[i].clicks}`;
-      ulE1.append(li);
-    }
+}
+
+function renderResults () {
+  var ulE1 = document.getElementById('finalResult');
+  for( var i =0; i<items.all.length; i++) {
+    var li = document.createElement('li');
+    li.textContent = `${items.all[i].goatName} has ${items.all[i].kliks}`;
+    ulE1.append(li);
   }
-  
-  
-  
-  function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  
+}
+
+
+ function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
