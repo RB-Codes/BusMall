@@ -2,6 +2,7 @@ body {
     background: rgb(155, 155, 238);
 }
 header {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
     border: 10px solid rgb(228, 120, 120);
     color: darkorchid;
@@ -11,10 +12,12 @@ header nav ul {
     list-style: none;
 }
 header nav ul li {
+
     display: inline-block;
     padding: 10px;
 } 
 header nav ul li a {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-decoration: none;
     color: rebeccapurple;
     font-size: 25px;
