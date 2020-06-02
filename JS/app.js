@@ -49,7 +49,7 @@ Item.all = [];
 var kliks = 0;
 var kliklim = 25;
 var ikliks = [];
-var iviews = [];
+var iviews = 0;
 // calling id
 var leftImage = document.getElementById('leftImage');
 var rightImage = document.getElementById('rightImage');
@@ -86,16 +86,17 @@ function renderImages() {
   leftImage.src = leftImage5.ipath;
   leftImage.alt = leftImage5.iname;
   leftImage.title = leftImage5.iname;
+  leftImage5.iviews++;
   // \\\\\\\\\\\\\\\\\\
   midImage.src = midImage5.ipath;
   midImage.alt = midImage5.iname;
   midImage.title = midImage5.iname;
+  midImage5.iviews++;
   // \\\\\\\\\\\\\\\\
   rightImage.src = rightImage5.ipath;
   rightImage.alt = rightImage5.iname;
   rightImage.title = rightImage5.iname;
-  // console.log(leftImage);
-  // console.log(midImage);
+  rightImage5.iviews++;
 }
 renderImages();
 
@@ -104,7 +105,7 @@ function renderResults() {
   var ulE1 = document.getElementById('resulty');
   for (var i = 0; i < items.all.length; i++) {
     var li = document.createElement('li');
-    li.textContent = `${Items.all[i].goatName} has ${Items.all[i].kliks}`;
+    li.textContent = `${Items.all[i].iname} has ${Items.all[i].kliks}`;
     ulE1.append(li);
   }
 }
@@ -132,9 +133,8 @@ function klikcount(event) {
     }
   } else if (kliks == 25 ) {
     kliks++
-    console.log(kliks)
+    ZaChartFun();
     renderResults();
-    // console.log(kliks)
   }
 }
 
@@ -144,49 +144,82 @@ function renderResults() {
     var li = document.createElement('li');
     ulE1.appendChild(li)
     li.textContent = `${Item.all[i].iname} has ${Item.all[i].ikliks}`
-    //  console.log(li)
   }
 }
-// Math dude
-function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+
+
+function ZaChartFun (){
+  console.log(Item.all)
+// Vote array for chart
+var voteForPics = [];
+var viewForPics = [];
+// For sentence
+for (var i = 0; i < Item.all.length; i++) {
+  voteForPics.push(Item.all[i].ikliks);
+  viewForPics.push(Item.all[i].iviews);
 }
-
-
+// Chart Data
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'pie',
+    type: 'horizontalBar',
     data: {
-        labels: [Item.all.length],
+        labels: pname,
         datasets: [{
-            label: '# of Votes',
-            data: [ikliks.length],
+          label: '# of Votes',
+            data: voteForPics,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(255, 159, 64, 0.2)'
-            ],
+              ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
-            ],
+            ]},
+            
+              {label: '# of Views',
+                data: viewForPics,
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                  ],
+                borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
             borderWidth: 5
-        }]
+          }]
     },
     options: {
-        scales: {
+      scales: {
             yAxes: [{
-                ticks: {
+              ticks: {
                     beginAtZero: true
-                }
-            }]
+                  }
+                }]
         }
+      }
+    });
+  }
+
+ 
+
+    // Math dude
+    function randomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-});
