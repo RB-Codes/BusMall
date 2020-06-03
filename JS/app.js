@@ -131,7 +131,7 @@ function klikcount(event) {
       }
       renderImages();
     }
-  } else if (kliks == 25 ) {
+  } else if (kliks == 25) {
     kliks++
     ZaChartFun();
     renderResults();
@@ -148,78 +148,105 @@ function renderResults() {
 }
 
 
-function ZaChartFun (){
+function ZaChartFun() {
   console.log(Item.all)
-// Vote array for chart
-var voteForPics = [];
-var viewForPics = [];
-// For sentence
-for (var i = 0; i < Item.all.length; i++) {
-  voteForPics.push(Item.all[i].ikliks);
-  viewForPics.push(Item.all[i].iviews);
-}
-// Chart Data
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
+  // Vote array for chart
+  var voteForPics = [];
+  var viewForPics = [];
+  // For sentence
+  for (var i = 0; i < Item.all.length; i++) {
+    voteForPics.push(Item.all[i].ikliks);
+    viewForPics.push(Item.all[i].iviews);
+  }
+  // Chart Data
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
     type: 'horizontalBar',
     data: {
-        labels: pname,
-        datasets: [{
-          label: '# of Votes',
-            data: voteForPics,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-              ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ]},
-            
-              {label: '# of Views',
-                data: viewForPics,
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                  ],
-                borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-            borderWidth: 5
-          }]
+      labels: pname,
+      datasets: [{
+        label: '# of Votes',
+        data: voteForPics,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ]
+      },
+
+      {
+        label: '# of Views',
+        data: viewForPics,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 5
+      }]
     },
     options: {
       scales: {
-            yAxes: [{
-              ticks: {
-                    beginAtZero: true
-                  }
-                }]
-        }
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
       }
-    });
-  }
-
- 
-
-    // Math dude
-    function randomNumber(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+  });
+}
+
+
+
+// Math dude
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//  Stoaa da Noombaz
+
+function storeMyResulty() {
+  var viewResultyPreziss = JSON.stringify(viewForPics);
+  var voteResultyPreziss = JSON.stringify(voteForPics);
+  localStorage.setItem('Za Views', viewResultyPreziss);
+  localStorage.setItem('Za Votes', voteResultyPreziss);
+}
+
+// Get Ma Reulties 
+
+function getMyResulty() {
+  var viewResultyPreziss = localStorage.getItem('Za Views')
+  var voteResultyPreziss = localStorage.getItem('Za Votes')
+  if (viewResultyPreziss, voteResultyPreziss) {
+    Item.all = JSON.parse(viewResultyPreziss, voteResultyPreziss);
+    renderResults();
+  }
+}
+// Event stopping zi Default
+// function klikcount(event) {
+//   event.preventDefault();
+// }
+
