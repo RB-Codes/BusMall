@@ -48,8 +48,8 @@ Item.all = [];
 
 var kliks = 0;
 var kliklim = 25;
-var ikliks = [];
-var iviews = 0;
+// var ikliks = [];
+// var iviews = 0;
 // calling id
 var leftImage = document.getElementById('leftImage');
 var rightImage = document.getElementById('rightImage');
@@ -103,9 +103,9 @@ renderImages();
 
 function renderResults() {
   var ulE1 = document.getElementById('resulty');
-  for (var i = 0; i < items.all.length; i++) {
+  for (var i = 0; i < Items.all.length; i++) {
     var li = document.createElement('li');
-    li.textContent = `${Items.all[i].iname} has ${Items.all[i].kliks}`;
+    li.textContent = `${Items.all[i].iname} has ${Items.all[i].ikliks}`;
     ulE1.append(li);
   }
 }
@@ -114,7 +114,9 @@ function renderResults() {
 
 imagesSection.addEventListener('click', klikcount);
 function klikcount(event) {
-
+  calculate();
+  getMyResulty(); 
+  
   if (kliks < kliklim) {
 
     if (event.target.id !== 'imagesSection') {
@@ -130,6 +132,7 @@ function klikcount(event) {
         midImage5.ikliks++;
       }
       renderImages();
+      storeMyResulty();
     }
   } else if (kliks == 25) {
     kliks++
@@ -147,17 +150,25 @@ function renderResults() {
   }
 }
 
+var voteForPics = [];
+var viewForPics = [];
+function calculate (){
+  var x = [];
+var y =[];
+
+  for (var i = 0; i < Item.all.length; i++) {    
+    x.push(Item.all[i].ikliks);
+    y.push(Item.all[i].iviews);
+  }
+  viewForPics=y;
+  voteForPics=x;
+}
 
 function ZaChartFun() {
-  console.log(Item.all)
+  calculate();
+  // console.log(Item.all)
   // Vote array for chart
-  var voteForPics = [];
-  var viewForPics = [];
   // For sentence
-  for (var i = 0; i < Item.all.length; i++) {
-    voteForPics.push(Item.all[i].ikliks);
-    viewForPics.push(Item.all[i].iviews);
-  }
   // Chart Data
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
@@ -220,7 +231,6 @@ function ZaChartFun() {
 }
 
 
-
 // Math dude
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -229,24 +239,24 @@ function randomNumber(min, max) {
 //  Stoaa da Noombaz
 
 function storeMyResulty() {
-  var viewResultyPreziss = JSON.stringify(viewForPics);
-  var voteResultyPreziss = JSON.stringify(voteForPics);
-  localStorage.setItem('Za Views', viewResultyPreziss);
-  localStorage.setItem('Za Votes', voteResultyPreziss);
+  var allitemsoo = JSON.stringify(Item.all);
+  localStorage.setItem('All stuff', allitemsoo);
+  
 }
 
 // Get Ma Reulties 
 
 function getMyResulty() {
-  var viewResultyPreziss = localStorage.getItem('Za Views')
-  var voteResultyPreziss = localStorage.getItem('Za Votes')
-  if (viewResultyPreziss, voteResultyPreziss) {
-    Item.all = JSON.parse(viewResultyPreziss, voteResultyPreziss);
-    renderResults();
+  var allitemsoo = localStorage.getItem('All stuff');
+  
+  if (allitemsoo) {
+    Item.all = JSON.parse(allitemsoo);
+    
   }
 }
 // Event stopping zi Default
 // function klikcount(event) {
 //   event.preventDefault();
 // }
+
 
