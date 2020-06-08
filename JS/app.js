@@ -1,5 +1,4 @@
 'use strict'
-
 var pname = [
   'bag.jpg',
   'banana.jpg',
@@ -21,7 +20,6 @@ var pname = [
   'usb.gif',
   'water-can.jpg',
   'wine-glass.jpg'];
-
 var ppath = [
   'assets/bag.jpg',
   'assets/banana.jpg',
@@ -43,11 +41,11 @@ var ppath = [
   'assets/usb.gif',
   'assets/water-can.jpg',
   'assets/wine-glass.jpg'];
-
 Item.all = [];
-
 var kliks = 0;
 var kliklim = 25;
+var voteForPics = [];
+var viewForPics = [];
 // var ikliks = [];
 // var iviews = 0;
 // calling id
@@ -55,7 +53,6 @@ var leftImage = document.getElementById('leftImage');
 var rightImage = document.getElementById('rightImage');
 var midImage = document.getElementById('midImage');
 //this will be the constructor
-
 function Item(iname, ipath, idetail) {
   this.iname = iname;
   this.ipath = ipath;
@@ -70,8 +67,10 @@ for (var i = 0; i < pname.length; i++) {
 }
 // Making Variables
 var leftImage5, midImage5, rightImage5;
+getMyResulty();
 // Render Function 
 function renderImages() {
+  storeMyResulty() 
   // NO REPETITION
   do {
     var cas1 = randomNumber(0, Item.all.length - 1);
@@ -99,8 +98,6 @@ function renderImages() {
   rightImage5.iviews++;
 }
 renderImages();
-
-
 function renderResults() {
   var ulE1 = document.getElementById('resulty');
   for (var i = 0; i < Items.all.length; i++) {
@@ -111,19 +108,13 @@ function renderResults() {
 }
 // Event Listener 
 // \\\\\\\\\\\\\\\\\\
-
 imagesSection.addEventListener('click', klikcount);
 function klikcount(event) {
-  calculate();
-  getMyResulty(); 
-  
   if (kliks < kliklim) {
-
     if (event.target.id !== 'imagesSection') {
       kliks++;
       if (event.target.id === 'leftImage') {
         leftImage5.ikliks++;
-
       }
       if (event.target.id === 'rightImage') {
         rightImage5.ikliks++;
@@ -131,31 +122,29 @@ function klikcount(event) {
       if (event.target.id === 'midImage') {
         midImage5.ikliks++;
       }
+      calculate();
       renderImages();
       storeMyResulty();
     }
   } else if (kliks == 25) {
+    calculate();
     kliks++
     ZaChartFun();
     renderResults();
   }
+  calculate();
 }
-
 function renderResults() {
   var ulE1 = document.getElementById('resulty');
   for (var i = 0; i < Item.all.length; i++) {
     var li = document.createElement('li');
     ulE1.appendChild(li)
-    li.textContent = `${Item.all[i].iname} has ${Item.all[i].ikliks}`
+    li.textContent = `${Item.all[i].iname} has ${Item.all[i].ikliks} & ${Item.all[i].iviews} Views`
   }
 }
-
-var voteForPics = [];
-var viewForPics = [];
 function calculate (){
   var x = [];
-var y =[];
-
+  var y =[];
   for (var i = 0; i < Item.all.length; i++) {    
     x.push(Item.all[i].ikliks);
     y.push(Item.all[i].iviews);
@@ -163,7 +152,6 @@ var y =[];
   viewForPics=y;
   voteForPics=x;
 }
-
 function ZaChartFun() {
   calculate();
   // console.log(Item.all)
@@ -195,7 +183,6 @@ function ZaChartFun() {
           'rgba(255, 159, 64, 1)'
         ]
       },
-
       {
         label: '# of Views',
         data: viewForPics,
@@ -229,34 +216,35 @@ function ZaChartFun() {
     }
   });
 }
-
-
 // Math dude
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 //  Stoaa da Noombaz
-
 function storeMyResulty() {
   var allitemsoo = JSON.stringify(Item.all);
   localStorage.setItem('All stuff', allitemsoo);
-  
+  var votes = JSON.stringify(voteForPics);
+  var clicks = JSON.stringify(viewForPics);
+  localStorage.setItem('votes', votes);
+  localStorage.setItem('clicks', clicks);
 }
-
 // Get Ma Reulties 
-
 function getMyResulty() {
   var allitemsoo = localStorage.getItem('All stuff');
-  
   if (allitemsoo) {
     Item.all = JSON.parse(allitemsoo);
-    
+  }
+  var votes = localStorage.getItem('votes');
+  var clicks = localStorage.getItem('clicks');
+  if (votes) {
+    voteForPics = JSON.parse(votes);
+  }
+  if (clicks) {
+    viewForPics = JSON.parse(clicks);
   }
 }
 // Event stopping zi Default
 // function klikcount(event) {
 //   event.preventDefault();
 // }
-
-
